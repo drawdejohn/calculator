@@ -9,13 +9,13 @@ let displayValue = "";
 //Create a new function operate that takes an operator and 2 numbers and then calls one of the above functions on the numbers.
 function operate(operator, x, y) {
   switch (operator) {
-    case add:
+    case "add":
       return x + y;
-    case subtract:
+    case "subtract":
       return x - y;
-    case multiply:
+    case "multiply":
       return x * y;
-    case divide:
+    case "divide":
       return x / y;
     default:
       return NaN;
@@ -25,24 +25,14 @@ function operate(operator, x, y) {
 //Create the functions that populate the display when you click the number buttons. You should be storing the ‘display value’ in a variable somewhere for use in the next step?
 
 // Get references to the calculator buttons
-const btn7 = document.getElementById("btn-7");
-const btn8 = document.getElementById("btn-8");
-const btn9 = document.getElementById("btn-9");
-const btn4 = document.getElementById("btn-4");
-const btn5 = document.getElementById("btn-5");
-const btn6 = document.getElementById("btn-6");
-const btn1 = document.getElementById("btn-1");
-const btn2 = document.getElementById("btn-2");
-const btn3 = document.getElementById("btn-3");
-const btn0 = document.getElementById("btn-0");
-const equalsBtn = document.getElementById("equals");
-const clearBtn = document.getElementById("clear");
-const plusBtn = document.getElementById("plus");
-const minusBtn = document.getElementById("minus");
-const timesBtn = document.getElementById("times");
-const dividedByBtn = document.getElementById("divided-by");
+const buttonIds = ["btn7", "btn8", "btn9", "btn4", "btn5", "btn6", "btn1", "btn2", "btn3", "btn0", "equals", "clear", "plus", "minus", "times", "dividedBy"];
+const buttons = {};
 
-equalsBtn.addEventListener("click", function() {
+buttonIds.forEach(id => {
+  buttons[id] = document.getElementById(id);
+});
+
+equals.addEventListener("click", function() {
 secondNum = displayValue;
 displayValue = operate(operator, parseFloat(firstNum), parseFloat(secondNum));
 updateDisplay();
@@ -50,69 +40,96 @@ firstNum="";
 secondNum="";
 });
 
-plusBtn.addEventListener("click", function() {
-if (firstNum === "") {
+
+function handleOperatorClick(op) {
+  if (firstNum === "") {
     firstNum = displayValue;
-    operator = add;
     displayValue = "";
-} else {
+  } else {
     secondNum = displayValue;
     const result = operate(operator, parseFloat(firstNum), parseFloat(secondNum));
     firstNum = result.toString();
-    console.log(firstNum)
-    console.log(secondNum)
-    operator = add;
     displayValue = "";
     updateDisplay();
+  }
+  operator = op;
 }
-});
 
-minusBtn.addEventListener("click", function() {
-if (firstNum === "") {
-    firstNum = displayValue;
-    operator = subtract;
-    displayValue = "";
-} else {
-    secondNum = displayValue;
-    const result = operate(operator, parseFloat(firstNum), parseFloat(secondNum));
-    firstNum = result.toString();
-    operator = subtract;
-    displayValue = "";
-    updateDisplay();
+const operatorButtons = {
+  plus: "add",
+  minus: "subtract",
+  times: "multiply",
+  dividedBy: "divide"
+};
+
+for (const [buttonId, operator] of Object.entries(operatorButtons)) {
+  const button = document.getElementById(buttonId);
+  button.addEventListener("click", () => handleOperatorClick(operator));
 }
-});
 
-timesBtn.addEventListener("click", function() {
-if (firstNum === "") {
-    firstNum = displayValue;
-    operator = multiply;
-    displayValue = "";
-} else {
-    secondNum = displayValue;
-    const result = operate(operator, parseFloat(firstNum), parseFloat(secondNum));
-    firstNum = result.toString();
-    operator = multiply;
-    displayValue = "";
-    updateDisplay();
-}
-});
+// plus.addEventListener("click", function() {
+// if (firstNum === "") {
+//     firstNum = displayValue;
+//     operator = "add";
+//     displayValue = "";
+// } else {
+//     secondNum = displayValue;
+//     const result = operate(operator, parseFloat(firstNum), parseFloat(secondNum));
+//     firstNum = result.toString();
+//     console.log(firstNum)
+//     console.log(secondNum)
+//     operator = "add";
+//     displayValue = "";
+//     updateDisplay();
+// }
+// });
 
-dividedByBtn.addEventListener("click", function() {
-if (firstNum === "") {
-    firstNum = displayValue;
-    operator = divide;
-    displayValue = "";
-} else {
-    secondNum = displayValue;
-    const result = operate(operator, parseFloat(firstNum), parseFloat(secondNum));
-    firstNum = result.toString();
-    operator = divide;
-    displayValue = "";
-    updateDisplay();
-}
-});
+// minus.addEventListener("click", function() {
+// if (firstNum === "") {
+//     firstNum = displayValue;
+//     operator = "subtract";
+//     displayValue = "";
+// } else {
+//     secondNum = displayValue;
+//     const result = operate(operator, parseFloat(firstNum), parseFloat(secondNum));
+//     firstNum = result.toString();
+//     operator = "subtract";
+//     displayValue = "";
+//     updateDisplay();
+// }
+// });
 
-clearBtn.addEventListener("click", function() {
+// times.addEventListener("click", function() {
+// if (firstNum === "") {
+//     firstNum = displayValue;
+//     operator = "multiply";
+//     displayValue = "";
+// } else {
+//     secondNum = displayValue;
+//     const result = operate(operator, parseFloat(firstNum), parseFloat(secondNum));
+//     firstNum = result.toString();
+//     operator = "multiply";
+//     displayValue = "";
+//     updateDisplay();
+// }
+// });
+
+// dividedBy.addEventListener("click", function() {
+// if (firstNum === "") {
+//     firstNum = displayValue;
+//     operator = "divide";
+//     displayValue = "";
+// } else {
+//     secondNum = displayValue;
+//     const result = operate(operator, parseFloat(firstNum), parseFloat(secondNum));
+//     firstNum = result.toString();
+//     operator = "divide";
+//     displayValue = "";
+//     updateDisplay();
+// }
+// });
+
+clear.addEventListener("click", function() {
 displayValue = "";
 firstNum = "";
 secondNum = "";
@@ -124,7 +141,7 @@ btn7.addEventListener("click", function() {
 displayValue += "7";
 updateDisplay();
 })
-btn8.addEventListener("click", function() {
+buttons.btn8.addEventListener("click", function() {
 displayValue += "8";
 updateDisplay();
 })
