@@ -36,13 +36,15 @@ let evaluated = false;
 let lastClickedOperator = false;
 
 equals.addEventListener("click", () => {
-secondNum = displayValue;
-displayValue = operate(operator, parseFloat(firstNum), parseFloat(secondNum));
-updateDisplay();
-firstNum="";
-secondNum="";
-evaluated = true;
-lastClickedOperator = true;
+  if(!lastClickedOperator){
+    secondNum = displayValue;
+    displayValue = operate(operator, parseFloat(firstNum), parseFloat(secondNum));
+    updateDisplay();
+    firstNum="";
+    secondNum="";
+    evaluated = true;
+    lastClickedOperator = true;
+  }
 });
 
 function handleOperatorClick(op) {
@@ -78,7 +80,6 @@ const operatorButtons = {
 for (const [buttonId, operator] of Object.entries(operatorButtons)) {
     const button = document.getElementById(buttonId);
     button.addEventListener("click", () => handleOperatorClick(operator));
-    lastClickedOperator = true;
 }
 
 clear.addEventListener("click", () => {
