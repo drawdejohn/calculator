@@ -43,7 +43,7 @@ equals.addEventListener("click", () => {
     firstNum="";
     secondNum="";
     evaluated = true;
-    lastClickedOperator = true;
+    lastClickedOperator = false;
   }
 });
 
