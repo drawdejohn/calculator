@@ -33,6 +33,7 @@ buttonIds.forEach(id => {
 });
 
 let evaluated = false;
+let lastClickedOperator = false;
 
 equals.addEventListener("click", () => {
 secondNum = displayValue;
@@ -41,22 +42,30 @@ updateDisplay();
 firstNum="";
 secondNum="";
 evaluated = true;
+lastClickedOperator = true;
 });
 
 function handleOperatorClick(op) {
-  if (firstNum === "") {
-    firstNum = displayValue;
-    displayValue = "";
+  if (!lastClickedOperator){
+    if (firstNum === "") {
+      firstNum = displayValue;
+      displayValue = "";
+      lastClickedOperator = true;
+    } else {
+      secondNum = displayValue;
+      const result = operate(operator, parseFloat(firstNum), parseFloat(secondNum));
+      firstNum = result.toString();
+      displayValue = result.toString();
+      updateDisplay();
+      secondNum="";
+      evaluated = true;
+      lastClickedOperator = true;
+    }
+    operator = op;
   } else {
-    secondNum = displayValue;
-    const result = operate(operator, parseFloat(firstNum), parseFloat(secondNum));
-    firstNum = result.toString();
-    displayValue = result.toString();
-    updateDisplay();
-    secondNum="";
-    evaluated = true;
+    operator = op;
   }
-  operator = op;
+
 }
 
 const operatorButtons = {
@@ -67,8 +76,9 @@ const operatorButtons = {
 };
 
 for (const [buttonId, operator] of Object.entries(operatorButtons)) {
-  const button = document.getElementById(buttonId);
-  button.addEventListener("click", () => handleOperatorClick(operator));
+    const button = document.getElementById(buttonId);
+    button.addEventListener("click", () => handleOperatorClick(operator));
+    lastClickedOperator = true;
 }
 
 clear.addEventListener("click", () => {
@@ -76,19 +86,23 @@ displayValue = "";
 firstNum = "";
 secondNum = "";
 operator = "";
+evaluated = false;
+lastClickedOperator = false;
 updateDisplay();
 });
 
 function addClickListener(button, value) {
   button.addEventListener("click", () => {
-    if (evaluated==true) {
+    if (evaluated) {
       displayValue = "";
       displayValue += value;
       updateDisplay();
       evaluated = false;
+      lastClickedOperator = false;
     } else {
       displayValue += value;
       updateDisplay();
+      lastClickedOperator = false;
     }
   });
 }
