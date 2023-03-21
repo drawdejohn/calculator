@@ -46,6 +46,7 @@ equals.addEventListener("click", () => {
       evaluated = true;
       lastClickedOperator = false;
       isDecimal = false;
+      operator="";
     }
   } 
 });
@@ -104,32 +105,26 @@ function addClickListener(button, value) {
   button.addEventListener("click", () => {
     if (button == decimal) {
       if (!isDecimal) {
-        if (evaluated) {
-          displayValue = "";
-          displayValue += value;
-          updateDisplay();
-          evaluated = false;
-          lastClickedOperator = false;
-        } else {
-          displayValue += value;
-          updateDisplay();
-          lastClickedOperator = false;
-        }
+        updateNumbers(value);
         isDecimal = true;}
       } else {
-        if (evaluated) {
-          displayValue = "";
-          displayValue += value;
-          updateDisplay();
-          evaluated = false;
-          lastClickedOperator = false;
-        } else {
-          displayValue += value;
-          updateDisplay();
-          lastClickedOperator = false;
-        }
+        updateNumbers(value);
       }
   });
+}
+
+function updateNumbers(value) {
+  if (evaluated) {
+    displayValue = "";
+    displayValue += value;
+    updateDisplay();
+    evaluated = false;
+    lastClickedOperator = false;
+  } else {
+    displayValue += value;
+    updateDisplay();
+    lastClickedOperator = false;
+  }
 }
 
 const btns = [btn7, btn8, btn9, btn4, btn5, btn6, btn1, btn2, btn3, btn0, decimal];
