@@ -36,15 +36,17 @@ let evaluated = false;
 let lastClickedOperator = false;
 
 equals.addEventListener("click", () => {
-  if(!lastClickedOperator){
-    secondNum = displayValue;
-    displayValue = operate(operator, parseFloat(firstNum), parseFloat(secondNum));
-    updateDisplay();
-    firstNum="";
-    secondNum="";
-    evaluated = true;
-    lastClickedOperator = false;
-  }
+  if (operator){
+    if(!lastClickedOperator){
+      secondNum = displayValue;
+      displayValue = operate(operator, parseFloat(firstNum), parseFloat(secondNum));
+      updateDisplay();
+      firstNum="";
+      secondNum="";
+      evaluated = true;
+      lastClickedOperator = false;
+    }
+  } 
 });
 
 function handleOperatorClick(op) {
