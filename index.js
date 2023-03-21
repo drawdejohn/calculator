@@ -45,9 +45,21 @@ equals.addEventListener("click", () => {
       secondNum="";
       evaluated = true;
       lastClickedOperator = false;
+      isDecimal = false;
     }
   } 
 });
+
+clear.addEventListener("click", () => {
+  displayValue = "";
+  firstNum = "";
+  secondNum = "";
+  operator = "";
+  evaluated = false;
+  lastClickedOperator = false;
+  isDecimal = false;
+  updateDisplay();
+  });
 
 function handleOperatorClick(op) {
   if (!lastClickedOperator){
@@ -55,6 +67,7 @@ function handleOperatorClick(op) {
       firstNum = displayValue;
       displayValue = "";
       lastClickedOperator = true;
+      isDecimal = false;
     } else {
       secondNum = displayValue;
       const result = operate(operator, parseFloat(firstNum), parseFloat(secondNum));
@@ -64,6 +77,7 @@ function handleOperatorClick(op) {
       secondNum="";
       evaluated = true;
       lastClickedOperator = true;
+      isDecimal = false;
     }
     operator = op;
   } else {
@@ -84,34 +98,42 @@ for (const [buttonId, operator] of Object.entries(operatorButtons)) {
     button.addEventListener("click", () => handleOperatorClick(operator));
 }
 
-clear.addEventListener("click", () => {
-displayValue = "";
-firstNum = "";
-secondNum = "";
-operator = "";
-evaluated = false;
-lastClickedOperator = false;
-updateDisplay();
-});
+let isDecimal = false;
 
 function addClickListener(button, value) {
   button.addEventListener("click", () => {
-    if (evaluated) {
-      displayValue = "";
-      displayValue += value;
-      updateDisplay();
-      evaluated = false;
-      lastClickedOperator = false;
-    } else {
-      displayValue += value;
-      updateDisplay();
-      lastClickedOperator = false;
-    }
+    if (button == decimal) {
+      if (!isDecimal) {
+        if (evaluated) {
+          displayValue = "";
+          displayValue += value;
+          updateDisplay();
+          evaluated = false;
+          lastClickedOperator = false;
+        } else {
+          displayValue += value;
+          updateDisplay();
+          lastClickedOperator = false;
+        }
+        isDecimal = true;}
+      } else {
+        if (evaluated) {
+          displayValue = "";
+          displayValue += value;
+          updateDisplay();
+          evaluated = false;
+          lastClickedOperator = false;
+        } else {
+          displayValue += value;
+          updateDisplay();
+          lastClickedOperator = false;
+        }
+      }
   });
 }
 
-const btns = [btn7, btn8, btn9, btn4, btn5, btn6, btn1, btn2, btn3, btn0];
-const values = ["7", "8", "9", "4", "5", "6", "1", "2", "3", "0"];
+const btns = [btn7, btn8, btn9, btn4, btn5, btn6, btn1, btn2, btn3, btn0, decimal];
+const values = ["7", "8", "9", "4", "5", "6", "1", "2", "3", "0", "."];
 for (let i = 0; i < btns.length; i++) {
     addClickListener(btns[i], values[i]);
 }
