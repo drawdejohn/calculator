@@ -25,13 +25,13 @@ let displayValue = "";
 function operate(operator, x, y) {
     switch (operator) {
       case add:
-        return add(x, y);
+        return x + y;
       case subtract:
-        return subtract(x, y);
+        return x - y;
       case multiply:
-        return multiply(x, y);
+        return x * y;
       case divide:
-        return divide(x, y);
+        return x / y;
       default:
         return NaN;
     }
@@ -58,13 +58,19 @@ const timesBtn = document.getElementById("times");
 const dividedByBtn = document.getElementById("divided-by");
 
 equalsBtn.addEventListener("click", function() {
-  secondNum = displayValue;
-  displayValue = operate(operator, parseFloat(firstNum), parseFloat(secondNum));
-  updateDisplay();
-  firstNum="";
-  secondNum="";
+    if (!(displayValue=="" || displayValue=="NaN")) {
+    console.log('second');
+    secondNum = displayValue;
+    displayValue = operate(operator, parseFloat(firstNum), parseFloat(secondNum));
+    updateDisplay();
+    firstNum="";
+    secondNum="";
+  } else {
+    console.log('third');
+    displayValue = "";
+    updateDisplay();
+  }
 });
-
 plusBtn.addEventListener("click", function() {
   if (firstNum === "") {
       firstNum = displayValue;
@@ -74,8 +80,6 @@ plusBtn.addEventListener("click", function() {
       secondNum = displayValue;
       const result = operate(operator, parseFloat(firstNum), parseFloat(secondNum));
       firstNum = result.toString();
-      console.log(firstNum)
-      console.log(secondNum)
       operator = add;
       displayValue = "";
       updateDisplay();
