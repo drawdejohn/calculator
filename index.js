@@ -32,14 +32,16 @@ buttonIds.forEach(id => {
   buttons[id] = document.getElementById(id);
 });
 
-equals.addEventListener("click", function() {
+let evaluated = false;
+
+equals.addEventListener("click", () => {
 secondNum = displayValue;
 displayValue = operate(operator, parseFloat(firstNum), parseFloat(secondNum));
 updateDisplay();
 firstNum="";
 secondNum="";
+evaluated = true;
 });
-
 
 function handleOperatorClick(op) {
   if (firstNum === "") {
@@ -49,8 +51,10 @@ function handleOperatorClick(op) {
     secondNum = displayValue;
     const result = operate(operator, parseFloat(firstNum), parseFloat(secondNum));
     firstNum = result.toString();
-    displayValue = "";
+    displayValue = result.toString();
     updateDisplay();
+    secondNum="";
+    evaluated = true;
   }
   operator = op;
 }
@@ -67,7 +71,7 @@ for (const [buttonId, operator] of Object.entries(operatorButtons)) {
   button.addEventListener("click", () => handleOperatorClick(operator));
 }
 
-clear.addEventListener("click", function() {
+clear.addEventListener("click", () => {
 displayValue = "";
 firstNum = "";
 secondNum = "";
@@ -76,9 +80,16 @@ updateDisplay();
 });
 
 function addClickListener(button, value) {
-  button.addEventListener("click", function() {
+  button.addEventListener("click", () => {
+    if (evaluated==true) {
+      displayValue = "";
       displayValue += value;
       updateDisplay();
+      evaluated = false;
+    } else {
+      displayValue += value;
+      updateDisplay();
+    }
   });
 }
 
@@ -88,50 +99,6 @@ for (let i = 0; i < btns.length; i++) {
     addClickListener(btns[i], values[i]);
 }
 
-// btn7.addEventListener("click", function() {
-// displayValue += "7";
-// updateDisplay();
-// })
-// btn8.addEventListener("click", function() {
-// displayValue += "8";
-// updateDisplay();
-// })
-// btn9.addEventListener("click", function() {
-// displayValue += "9";
-// updateDisplay();
-// })
-// btn4.addEventListener("click", function() {
-// displayValue += "4";
-// updateDisplay();
-// })
-// btn5.addEventListener("click", function() {
-// displayValue += "5";
-// updateDisplay();
-// })
-// btn6.addEventListener("click", function() {
-// displayValue += "6";
-// updateDisplay();
-// })
-// btn1.addEventListener("click", function() {
-// displayValue += "1";
-// updateDisplay();
-// })
-// btn2.addEventListener("click", function() {
-// displayValue += "2";
-// updateDisplay();
-// })
-// btn3.addEventListener("click", function() {
-// displayValue += "3";
-// updateDisplay();
-// })
-// btn0.addEventListener("click", function() {
-// displayValue += "0";
-// updateDisplay();
-// })
-
 function updateDisplay() {
 display.textContent = displayValue;
-// console.log(operator);
-// console.log(firstNum);
-// console.log(secondNum);
 }
