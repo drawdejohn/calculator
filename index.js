@@ -39,7 +39,8 @@ equals.addEventListener("click", () => {
   if (operator){
     if(!lastClickedOperator){
       secondNum = displayValue;
-      displayValue = operate(operator, parseFloat(firstNum), parseFloat(secondNum));
+      const result = operate(operator, parseFloat(firstNum), parseFloat(secondNum));
+      displayValue = result.toString();
       updateDisplay();
       firstNum="";
       secondNum="";
@@ -134,5 +135,16 @@ for (let i = 0; i < btns.length; i++) {
 }
 
 function updateDisplay() {
-display.textContent = displayValue;
+
+  let precision = 9;
+  
+  if (displayValue=="") {
+    display.textContent = displayValue;
+  } else if (displayValue.includes(".")){
+    display.textContent = displayValue;
+  } else {
+    let num = parseFloat(displayValue)
+    displayValue = Math.round(num * Math.pow(10, precision)) / Math.pow(10, precision)
+    display.textContent = displayValue.toString();
+  }
 }
