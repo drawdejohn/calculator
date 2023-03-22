@@ -26,10 +26,17 @@ function operate(operator, x, y) {
 
 // Initialize the buttons object and assign the button elements to their respective keys
 const buttons = {};
-const buttonIds = ["btn7", "btn8", "btn9", "btn4", "btn5", "btn6", "btn1", "btn2", "btn3", "btn0", "equals", "clear", "backspace", "plus", "minus", "times", "dividedBy"];
+const buttonIds = ["btn7", "btn8", "btn9", "btn4", "btn5", "btn6", "btn1", "btn2", "btn3", "btn0", "equals", "clear", "backspace", "plus", "minus", "times", "dividedBy", "display"];
 buttonIds.forEach(id => {
   buttons[id] = document.getElementById(id);
 });
+
+// // Add a keyboard support to enter numbers, operations (+, -, /, *), equals, decimal, backspace and escape(clear)
+// document.addEventListener("keydown", function(event) {
+//   console.log(event.keyCode);
+// });
+//1. Handle numbers and decimals
+
 
 // Define the clearDisplay function to reset all variables and update the display
 const clearDisplay = () => {
@@ -148,13 +155,16 @@ function updateDisplay() {
     display.textContent = displayValue;
 }
 
-// Add a "backspace" function to undo the last number in the display. Disable the function if an operator has been selected or if the displayed value is the result of a calculation
+//add backspace function that undo the number in display when clicked the wrong number
 
-backspace.addEventListener("click", () => {
-  if(!lastClickedEquals){
-      if (displayValue.length > 0) {
-        displayValue = displayValue.slice(0, -1);
-        updateDisplay();
-      }
+backspace.onclick = undo;
+document.onkeydown = (event) => {
+  if (event.code === 'Backspace') undo();
+};
+
+function undo() {
+  if (!lastClickedEquals && displayValue.length) {
+    displayValue = displayValue.slice(0, -1);
+    updateDisplay();
   }
-});
+}
