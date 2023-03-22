@@ -60,7 +60,7 @@ document.addEventListener("keydown", event => {
 });
 
 // Add a click listener to the equals button to process the calculation
-equals.addEventListener("click", () => {
+const calculate = () => {
   if (operator) {
     if (!lastClickedOperator) {
       processDisplay();
@@ -70,6 +70,14 @@ equals.addEventListener("click", () => {
       lastClickedEquals = true;
     }
   } 
+}
+
+equals.addEventListener("click", calculate);
+document.addEventListener("keydown", event  => {
+  event.preventDefault();
+  if (event.key === 'Enter' || event.key === '=') {
+    calculate();
+  }
 });
 
 // Define processDisplay function to perform calculation and update display and flags
