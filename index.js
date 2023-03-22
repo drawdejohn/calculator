@@ -6,6 +6,7 @@ let displayValue = "";
 let isDecimal = false;
 let evaluated = false;
 let lastClickedOperator = false;
+let lastClickedEquals = false;
 
 // Define the operate function to perform arithmetic operations
 function operate(operator, x, y) {
@@ -25,7 +26,7 @@ function operate(operator, x, y) {
 
 // Initialize the buttons object and assign the button elements to their respective keys
 const buttons = {};
-const buttonIds = ["btn7", "btn8", "btn9", "btn4", "btn5", "btn6", "btn1", "btn2", "btn3", "btn0", "equals", "clear", "plus", "minus", "times", "dividedBy"];
+const buttonIds = ["btn7", "btn8", "btn9", "btn4", "btn5", "btn6", "btn1", "btn2", "btn3", "btn0", "equals", "clear", "backspace", "plus", "minus", "times", "dividedBy"];
 buttonIds.forEach(id => {
   buttons[id] = document.getElementById(id);
 });
@@ -38,6 +39,7 @@ const clearDisplay = () => {
   operator = '';
   evaluated = false;
   lastClickedOperator = false;
+  lastClickedEquals = false;
   isDecimal = false;
   updateDisplay();
 };
@@ -53,6 +55,7 @@ equals.addEventListener("click", () => {
       firstNum = "";
       lastClickedOperator = false;
       operator = "";
+      lastClickedEquals = true;
     }
   } 
 });
@@ -76,11 +79,13 @@ function handleOperatorClick(op) {
       firstNum = displayValue;
       displayValue = "";
       lastClickedOperator = true;
+      lastClickedEquals = false;
       isDecimal = false;
     } else {
       processDisplay();
       firstNum = displayValue;
       lastClickedOperator = true;
+      lastClickedEquals = false;
     }
     operator = op;
   } else {
@@ -112,6 +117,7 @@ function addClickListener(button, value) {
       } else {
         updateNumbers(value);
       }
+    lastClickedEquals = false;
   });
 }
 
@@ -141,3 +147,14 @@ for (let i = 0; i < btns.length; i++) {
 function updateDisplay() {
     display.textContent = displayValue;
 }
+
+// Add a "backspace" function to undo the last number in the display. Disable the function if an operator has been selected or if the displayed value is the result of a calculation
+
+backspace.addEventListener("click", () => {
+  if(!lastClickedEquals){
+      if (displayValue.length > 0) {
+        displayValue = displayValue.slice(0, -1);
+        updateDisplay();
+      }
+  }
+});
