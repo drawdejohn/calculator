@@ -31,10 +31,10 @@ buttonIds.forEach(id => {
   buttons[id] = document.getElementById(id);
 });
 
-// // Add a keyboard support to enter numbers, operations (+, -, /, *), equals, decimal, backspace and escape(clear)
-// document.addEventListener("keydown", function(event) {
-//   console.log(event.keyCode);
-// });
+// // // Add a keyboard support to enter numbers, operations (+, -, /, *), equals, decimal, backspace and escape(clear)
+document.addEventListener("keydown", function(event) {
+  console.log(event);
+});
 //1. Handle numbers and decimals
 
 
@@ -53,6 +53,11 @@ const clearDisplay = () => {
 
 // Add a click listener to the clear button to call the clearDisplay function
 clear.addEventListener('click', clearDisplay);
+document.addEventListener("keydown", event => {
+  if (event.key === 'Escape') {
+    clearDisplay();
+  }
+});
 
 // Add a click listener to the equals button to process the calculation
 equals.addEventListener("click", () => {
@@ -156,15 +161,14 @@ function updateDisplay() {
 }
 
 //add backspace function that undo the number in display when clicked the wrong number
-
-backspace.onclick = undo;
-document.onkeydown = (event) => {
-  if (event.code === 'Backspace') undo();
-};
-
-function undo() {
-  if (!lastClickedEquals && displayValue.length) {
+const undo = () => {
+  if(!lastClickedEquals && displayValue.length > 0){
     displayValue = displayValue.slice(0, -1);
     updateDisplay();
   }
 }
+
+backspace.addEventListener("click", undo);
+document.addEventListener("keydown", event => {
+  if (event.key === 'Delete' || event.key === 'Backspace' ) undo();
+});
