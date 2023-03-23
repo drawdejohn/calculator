@@ -12,19 +12,14 @@ let lastClickedEquals = false;
 function operate(operator, x, y) {
   switch (operator) {
     case "add":
-      console.log(operator);
       return x + y;
     case "subtract":
-      console.log(operator);
       return x - y;
     case "multiply":
-      console.log(operator);
       return x * y;
     case "divide":
-      console.log(operator);
       return x / y;
     default:
-      console.log(operator);
       return NaN;
   }
 }
@@ -35,13 +30,6 @@ const buttonIds = ["btn7", "btn8", "btn9", "btn4", "btn5", "btn6", "btn1", "btn2
 buttonIds.forEach(id => {
   buttons[id] = document.getElementById(id);
 });
-
-// // // Add a keyboard support to enter numbers, operations (+, -, /, *), equals, decimal, backspace and escape(clear)
-document.addEventListener("keydown", function(event) {
-  console.log(event);
-});
-//1. Handle numbers and decimals
-
 
 // Define the clearDisplay function to reset all variables and update the display
 const clearDisplay = () => {
@@ -103,20 +91,15 @@ function handleOperatorClick(op) {
     if (firstNum === "") {
       firstNum = displayValue;
       displayValue = "";
-      lastClickedOperator = true;
-      lastClickedEquals = false;
       isDecimal = false;
     } else {
       processDisplay();
       firstNum = displayValue;
-      lastClickedOperator = true;
-      lastClickedEquals = false;
     }
-    operator = op;
-  } else {
-    operator = op;
+    lastClickedOperator = true;
+    lastClickedEquals = false;
   }
-
+  operator = op;
 }
 
 // Add click event listener to each operator button to call the handleOperatorClick function
@@ -148,13 +131,6 @@ for (const [buttonId, operator] of Object.entries(operatorButtons)) {
     })
 }
 
-// document.addEventListener("keydown", function(event) {
-//   console.log(isNaN(event.key))
-//   if (!isNaN(event.key)){
-
-//   }
-// });
-
 // Assign click listeners to buttons for each value in the values array
 const btns = [btn7, btn8, btn9, btn4, btn5, btn6, btn1, btn2, btn3, btn0, decimal];
 const values = ["7", "8", "9", "4", "5", "6", "1", "2", "3", "0", "."];
@@ -173,7 +149,6 @@ function addClickListener(button, value) {
     } else {
       updateNumbers(value);
     }
-    lastClickedEquals = false;
   })
 }
 
@@ -193,17 +168,22 @@ document.addEventListener("keydown", (event) => {
 
 // Update displayed numbers when a digit or decimal point is clicked
 function updateNumbers(value) {
+  if (value === "0" && displayValue === "") {
+    // Do nothing if "0" is the first number to be pressed
+    return;
+  }
   if (evaluated) {
     displayValue = "";
-    displayValue += value;
-    updateDisplay();
     evaluated = false;
-    lastClickedOperator = false;
-  } else {
-    displayValue += value;
-    updateDisplay();
-    lastClickedOperator = false;
   }
+  if (value === "." && displayValue === "") {
+    // If the first number pressed is ".", prepend "0"
+    displayValue = "0";
+  }
+  displayValue += value;
+  updateDisplay();
+  lastClickedOperator = false;
+  lastClickedEquals = false;
 }
 
 //Updates the calculator display with the current result or input value
@@ -218,7 +198,6 @@ const undo = () => {
     updateDisplay();
   }
 }
-
 backspace.addEventListener("click", undo);
 document.addEventListener("keydown", event => {
   if (event.key === 'Delete' || event.key === 'Backspace' ) undo();
