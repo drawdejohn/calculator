@@ -54,11 +54,11 @@ document.addEventListener("keydown", event => {
 const calculate = () => {
   if (operator) {
     if (!lastClickedOperator) {
+      lastClickedEquals = true;
       processDisplay();
       firstNum = "";
       lastClickedOperator = false;
       operator = "";
-      lastClickedEquals = true;
     }
   } 
 }
@@ -173,9 +173,20 @@ function updateNumbers(value) {
 
 //Updates the calculator display with the current result or input value
 function updateDisplay() {
-  if (displayValue==Infinity) {
-    display.textContent = "Error: Division by zero"
+  const maxDisplayLength = 9;
+  if (lastClickedEquals) {
+    if (parseFloat(displayValue).toFixed(0).length <= maxDisplayLength) {
+      if (displayValue==Infinity) {
+        display.textContent = "Error: division by zero"
+      } else {
+        displayValue = displayValue.slice(0, maxDisplayLength);
+        display.textContent = displayValue;
+      }
+    } else {
+      display.textContent = "Error: Number too large"
+    }
   } else {
+    displayValue = displayValue.slice(0, maxDisplayLength);
     display.textContent = displayValue;
   }
 }
