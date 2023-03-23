@@ -177,13 +177,13 @@ function updateDisplay() {
   if (lastClickedEquals) {
     if (parseFloat(displayValue).toFixed(0).length <= maxDisplayLength) {
       if (displayValue==Infinity) {
-        display.textContent = "Error: Divide by 0"
+        display.textContent = "Err: Divide by 0"
       } else {
         displayValue = displayValue.slice(0, maxDisplayLength);
         display.textContent = displayValue;
       }
     } else {
-      display.textContent = "Error: Too Large"
+      display.textContent = "Err: Too Large"
     }
   } else {
     displayValue = displayValue.slice(0, maxDisplayLength);
