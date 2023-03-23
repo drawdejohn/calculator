@@ -28,5 +28,4 @@ To use the calculator, simply enter a number by clicking or keyboard input, choo
 - Maximum number of characters displayed on the calculator screen is limited to prevent overflow.
 
 ## Credits
-This project was built as part of my web development course. The original idea came from The Odin Project's [Calculator project]
-(https://www.theodinproject.com/lessons/foundations-calculator).
+This project was built as part of my web development course. The original idea came from The Odin Project's [Calculator Project](https://www.theodinproject.com/lessons/foundations-calculator).
