@@ -1,5 +1,5 @@
 // Initialize variables to hold the numbers, operator, display value, and flags
-const maxDisplayLength = 15;
+const maxDisplayLength = 14;
 const precision = 9;
 let firstNum = "";
 let operator = "";
