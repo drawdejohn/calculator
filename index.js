@@ -74,8 +74,8 @@ const calculate = () => {
 
 equals.addEventListener("click", calculate);
 document.addEventListener("keydown", event  => {
-  event.preventDefault();
   if (event.key === 'Enter' || event.key === '=') {
+    event.preventDefault();
     calculate();
   }
 });
@@ -127,19 +127,48 @@ for (const [buttonId, operator] of Object.entries(operatorButtons)) {
     button.addEventListener("click", () => handleOperatorClick(operator));
 }
 
+// document.addEventListener("keydown", function(event) {
+//   console.log(isNaN(event.key))
+//   if (!isNaN(event.key)){
+
+//   }
+// });
+
+// Assign click listeners to buttons for each value in the values array
+const btns = [btn7, btn8, btn9, btn4, btn5, btn6, btn1, btn2, btn3, btn0, decimal];
+const values = ["7", "8", "9", "4", "5", "6", "1", "2", "3", "0", "."];
+for (let i = 0; i < btns.length; i++) {
+    addClickListener(btns[i], values[i]);
+}
+
 // Define addClickListener function to add click listener to buttons and update display accordingly
 function addClickListener(button, value) {
   button.addEventListener("click", () => {
     if (button == decimal) {
       if (!isDecimal) {
         updateNumbers(value);
-        isDecimal = true;}
-      } else {
-        updateNumbers(value);
+        isDecimal = true;
       }
+    } else {
+      updateNumbers(value);
+    }
     lastClickedEquals = false;
-  });
+  })
 }
+
+document.addEventListener("keydown", (event) => {
+  const key = event.key;
+  if (event.key === '.') {
+    if (!isDecimal) {
+      updateNumbers(key);
+      isDecimal = true;
+    }
+  } else {
+    if (values.includes(key)) {
+      updateNumbers(key);
+    }
+  }
+});
 
 // Update displayed numbers when a digit or decimal point is clicked
 function updateNumbers(value) {
@@ -154,13 +183,6 @@ function updateNumbers(value) {
     updateDisplay();
     lastClickedOperator = false;
   }
-}
-
-// Assign click listeners to buttons for each value in the values array
-const btns = [btn7, btn8, btn9, btn4, btn5, btn6, btn1, btn2, btn3, btn0, decimal];
-const values = ["7", "8", "9", "4", "5", "6", "1", "2", "3", "0", "."];
-for (let i = 0; i < btns.length; i++) {
-    addClickListener(btns[i], values[i]);
 }
 
 //Updates the calculator display with the current result or input value
