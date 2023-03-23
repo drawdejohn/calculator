@@ -1,0 +1,85 @@
+body {
+    background-color: beige;
+}
+
+.calculator {
+    padding: 30px 15px 15px;
+    border-radius: 10px;
+    background-color: grey;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+}
+
+#display {
+    margin: 6px;
+    border-radius: 10px;
+    background-color: #333;
+    color: white;
+    font-size: 3em;
+    padding: 0.5em;
+    text-align: right;
+}
+
+.keys {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.key {
+    border-radius: 10px;
+    font-size: 2em;
+    margin: 5px;
+}
+
+.key:hover {
+   animation-name : button-pressed-animation ;
+   animation-duration : .2s ;
+   animation-fill-mode : forwards ;
+}
+
+@keyframes button-pressed-animation{
+   from {transform : translateY(0)}
+   to {transform : translateY(-2px)}
+}
+#btn0{
+   grid-column-start : span 2 ;
+}
+#equals{
+   grid-column-start : span 2 ;
+}
+.key[id^="btn"] {
+   background-color : #f2f2f2 ;
+}
+.key[id$="space"], .key[id$="lear"]{
+   background-color : #ff6666 ;
+}
+.key[id$="times"], .key[id$="idedBy"], .key[id$="plus"], .key[id$="minus"], .key[id$="quals"]{
+   background-color : #ffcc66 ;
+}
+
+.footer {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px;
+    font-size: 20px;
+}
+
+.logo {
+    height: 30px;
+    color: var(--font);
+    transition: transform 0.3s ease-in-out;
+}
+
+.logo:hover{
+    transform: rotate(360deg) scale(1.2);
+}

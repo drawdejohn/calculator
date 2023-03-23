@@ -1,4 +1,6 @@
 // Initialize variables to hold the numbers, operator, display value, and flags
+const maxDisplayLength = 16;
+const precision = 9;
 let firstNum = "";
 let operator = "";
 let secondNum = "";
@@ -73,7 +75,6 @@ document.addEventListener("keydown", event  => {
 
 // Define processDisplay function to perform calculation and update display and flags
 function processDisplay() {
-  let precision = 9;
   secondNum = displayValue;
   let result = operate(operator, parseFloat(firstNum), parseFloat(secondNum));
   result = Math.floor(result * Math.pow(10, precision)) / Math.pow(10, precision);
@@ -173,17 +174,16 @@ function updateNumbers(value) {
 
 //Updates the calculator display with the current result or input value
 function updateDisplay() {
-  const maxDisplayLength = 9;
   if (lastClickedEquals) {
     if (parseFloat(displayValue).toFixed(0).length <= maxDisplayLength) {
       if (displayValue==Infinity) {
-        display.textContent = "Error: division by zero"
+        display.textContent = "Error: Divide by 0"
       } else {
         displayValue = displayValue.slice(0, maxDisplayLength);
         display.textContent = displayValue;
       }
     } else {
-      display.textContent = "Error: Number too large"
+      display.textContent = "Error: Too Large"
     }
   } else {
     displayValue = displayValue.slice(0, maxDisplayLength);
