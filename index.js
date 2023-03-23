@@ -2,7 +2,7 @@
 let firstNum = "";
 let operator = "";
 let secondNum = "";
-let displayValue = "";
+let displayValue = "0";
 let evaluated = false;
 let lastClickedOperator = false;
 let lastClickedEquals = false;
@@ -32,7 +32,7 @@ buttonIds.forEach(id => {
 
 // Define the clearDisplay function to reset all variables and update the display
 const clearDisplay = () => {
-  displayValue = '';
+  displayValue = '0';
   firstNum = '';
   secondNum = '';
   operator = '';
@@ -136,6 +136,9 @@ for (let i = 0; i < btns.length; i++) {
 
 // Define addClickListener function to add click listener to buttons and update display accordingly
 const checkDecimal = (key) => {
+  if (displayValue==="0") {
+    displayValue = '';
+  }
   if (key === '.') {
     if (!displayValue.includes(".")) {
       updateNumbers(key);
@@ -152,7 +155,7 @@ document.addEventListener("keydown", (event) => checkDecimal(event.key))
 
 // Update displayed numbers when a digit or decimal point is clicked
 function updateNumbers(value) {
-  if (value === "0" && displayValue === "") {
+  if (value === "0" && displayValue === "0") {
     return;
   }
   if (evaluated) {
@@ -170,7 +173,11 @@ function updateNumbers(value) {
 
 //Updates the calculator display with the current result or input value
 function updateDisplay() {
+  if (displayValue==Infinity) {
+    display.textContent = "Error: Division by zero"
+  } else {
     display.textContent = displayValue;
+  }
 }
 
 //add backspace function that undo the number in display when clicked the wrong number
@@ -183,6 +190,10 @@ const undo = () => {
       displayValue = displayValue.slice(0, -1);
       updateDisplay();
     }
+  }
+  if (displayValue === "") {
+    displayValue = '0';
+    updateDisplay();
   }
 }
 backspace.addEventListener("click", undo);
