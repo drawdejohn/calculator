@@ -12,14 +12,19 @@ let lastClickedEquals = false;
 function operate(operator, x, y) {
   switch (operator) {
     case "add":
+      console.log(operator);
       return x + y;
     case "subtract":
+      console.log(operator);
       return x - y;
     case "multiply":
+      console.log(operator);
       return x * y;
     case "divide":
+      console.log(operator);
       return x / y;
     default:
+      console.log(operator);
       return NaN;
   }
 }
@@ -125,6 +130,22 @@ const operatorButtons = {
 for (const [buttonId, operator] of Object.entries(operatorButtons)) {
     const button = document.getElementById(buttonId);
     button.addEventListener("click", () => handleOperatorClick(operator));
+    document.addEventListener("keydown", event => {
+      switch (event.key) {
+        case '+':
+          handleOperatorClick(operatorButtons.plus);
+          break;
+        case '-':
+          handleOperatorClick(operatorButtons.minus);
+          break;
+        case '*':
+          handleOperatorClick(operatorButtons.times);
+          break;
+        case '/':
+          handleOperatorClick(operatorButtons.dividedBy);
+          break;
+      }
+    })
 }
 
 // document.addEventListener("keydown", function(event) {
