@@ -3,7 +3,6 @@ let firstNum = "";
 let operator = "";
 let secondNum = "";
 let displayValue = "";
-let isDecimal = false;
 let evaluated = false;
 let lastClickedOperator = false;
 let lastClickedEquals = false;
@@ -40,7 +39,6 @@ const clearDisplay = () => {
   evaluated = false;
   lastClickedOperator = false;
   lastClickedEquals = false;
-  isDecimal = false;
   updateDisplay();
 };
 
@@ -82,7 +80,6 @@ function processDisplay() {
   displayValue = result.toString();
   secondNum="";
   evaluated = true;
-  isDecimal = false;
   updateDisplay();
 }
 // Define handleOperatorClick function to handle click event for operator buttons
@@ -91,7 +88,6 @@ function handleOperatorClick(op) {
     if (firstNum === "") {
       firstNum = displayValue;
       displayValue = "";
-      isDecimal = false;
     } else {
       processDisplay();
       firstNum = displayValue;
@@ -139,37 +135,24 @@ for (let i = 0; i < btns.length; i++) {
 }
 
 // Define addClickListener function to add click listener to buttons and update display accordingly
-function addClickListener(button, value) {
-  button.addEventListener("click", () => {
-    if (button == decimal) {
-      if (!isDecimal) {
-        updateNumbers(value);
-        isDecimal = true;
-      }
-    } else {
-      updateNumbers(value);
+const checkDecimal = (key) => {
+  if (key === '.') {
+    if (!displayValue.includes(".")) {
+      updateNumbers(key);
     }
-  })
+  } else if (values.includes(key)) {
+      updateNumbers(key);
+    }
 }
 
-document.addEventListener("keydown", (event) => {
-  const key = event.key;
-  if (event.key === '.') {
-    if (!isDecimal) {
-      updateNumbers(key);
-      isDecimal = true;
-    }
-  } else {
-    if (values.includes(key)) {
-      updateNumbers(key);
-    }
-  }
-});
+function addClickListener(button, value) {
+  button.addEventListener("click", () => checkDecimal(value))
+}
+document.addEventListener("keydown", (event) => checkDecimal(event.key))
 
 // Update displayed numbers when a digit or decimal point is clicked
 function updateNumbers(value) {
   if (value === "0" && displayValue === "") {
-    // Do nothing if "0" is the first number to be pressed
     return;
   }
   if (evaluated) {
@@ -177,7 +160,6 @@ function updateNumbers(value) {
     evaluated = false;
   }
   if (value === "." && displayValue === "") {
-    // If the first number pressed is ".", prepend "0"
     displayValue = "0";
   }
   displayValue += value;
@@ -193,9 +175,14 @@ function updateDisplay() {
 
 //add backspace function that undo the number in display when clicked the wrong number
 const undo = () => {
-  if(!lastClickedEquals && displayValue.length > 0){
-    displayValue = displayValue.slice(0, -1);
+  if (displayValue === "0."){
+    displayValue = "";
     updateDisplay();
+  } else {
+    if(!lastClickedEquals && displayValue.length > 0){
+      displayValue = displayValue.slice(0, -1);
+      updateDisplay();
+    }
   }
 }
 backspace.addEventListener("click", undo);
