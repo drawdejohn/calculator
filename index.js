@@ -89,6 +89,8 @@ function processDisplay() {
 // Define handleOperatorClick function to handle click event for operator buttons
 function handleOperatorClick(op) {
   if (!lastClickedOperator){
+    lastClickedOperator = true;
+    lastClickedEquals = false;
     if (firstNum === "") {
       firstNum = displayValue;
       displayValue = "";
