@@ -78,8 +78,8 @@ function processDisplay() {
   secondNum = displayValue;
   let result = operate(operator, parseFloat(firstNum), parseFloat(secondNum));
   result = Math.floor(result * Math.pow(10, precision)) / Math.pow(10, precision);
-  if (result.toString().slice(0,maxDisplayLength).charAt(maxDisplayLength-1) == ".") {
-    result = result.toString().slice(0,maxDisplayLength-1)
+  if (result.toString().charAt(maxDisplayLength-1)==".") {
+    result = result.toString().slice(0,maxDisplayLength-1);
   }
   displayValue = result.toString();
   secondNum="";
