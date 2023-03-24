@@ -177,6 +177,7 @@ function updateNumbers(value) {
 
 //Updates the calculator display with the current result or input value
 function updateDisplay() {
+  if (lastClickedEquals || lastClickedOperator) {
     if (parseFloat(displayValue).toFixed(0).length <= maxDisplayLength) {
       if (displayValue==Infinity) {
         display.textContent = "Err: Divided by 0"
@@ -187,6 +188,10 @@ function updateDisplay() {
     } else {
       display.textContent = "Err: Too Large"
     }
+  } else {
+    displayValue = displayValue.slice(0, maxDisplayLength);
+    display.textContent = displayValue;
+  }
 }
 
 //add backspace function that undo the number in display when clicked the wrong number
